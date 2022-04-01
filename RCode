@@ -1,0 +1,7 @@
+library(ggplot2)
+load(file ='Rdata/house_prices.rda' )
+
+ggplot(data = house_prices, aes(date,house_price_index))+
+  #scale_x_discrete(labels=c(1980,2000,2020))+
+  geom_line(color = "steelblue", size = 1)+
+  facet_wrap(~ state)
