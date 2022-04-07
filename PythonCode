@@ -1,0 +1,51 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import datetime
+from google.colab import drive
+drive.mount('/content/drive')
+#You have to make sure that you were able to write the file to a csv while your were working in R
+house=pd.read_csv('/content/drive/MyDrive/302/house_prices.csv')
+house.head()
+states = ['Michigan', 'California', 'Texas', 'Indiana']
+#your code goes here
+houseMCTI = house.loc[(house['state']== 'Michigan') | (house['state']== 'California') | (house['state']== 'Texas') | (house['state']== 'Indiana') ]
+
+houseMCTI['date'] = pd.to_datetime(houseMCTI['date'])
+houseMCTI.head()
+#your code goes here
+
+p = sns.FacetGrid(houseMCTI, col='state')
+
+p.map(sns.lineplot,'date','house_price_index',color = 'red')
+
+xmarks = pd.to_datetime(['1980', '2000', '2020'])
+p.set(xticks=xmarks)
+p.set_xticklabels(['1980', '2000', '2020'])
+p.set_xlabels('')
+p.set_ylabels('house price index')
+#your code goes here
+g = sns.FacetGrid(houseMCTI,hue = "state")
+g.map(sns.lineplot,'date','house_price_perc')
+xmarks = pd.to_datetime(['1980', '2000', '2020'])
+g.set(xticks=xmarks)
+g.set_xticklabels(['1980', '2000', '2020'])
+g.set_xlabels('')
+g.set_ylabels('house price perc')
+plt.legend(labels = ['Michigan', 'California', 'Texas', 'Indiana'],loc = 'bottom left',ncol = 4)
+world_cup = pd.read_csv('/content/drive/MyDrive/302/WorldCupMatches.csv')
+world_cup
+#Your code goes here.
+world_cup = pd.read_csv('/content/drive/MyDrive/302/WorldCupMatches.csv')
+
+team_pairs1 = world_cup.groupby(['Home Team Initials', 'Away Team Initials'])['Year'].count().reset_index()
+team_pairs1['Home Team Goals'] = world_cup.groupby(['Home Team Initials'])['Home Team Goals'].transform('sum')
+#team_pairs ['Weight'] = world_cup.groupby(['Home Team Initials','Away Team Initials']).transform('count')
+team_pairs1.to_csv('team_pairs.csv', index=False)
+
+
+
+
+#world_cup['Weight'] = world_cup.groupby('Home Team Initials')['Home Team Initials'].transform('count') + world_cup.groupby('Away Team Initials')['Away Team Initials'].transform('count')
+#world_cup.groupby('Away Team Initials')['Away Team Initials'].transform('count')
+#team_pairs['Home Team Goals Total'] = 
