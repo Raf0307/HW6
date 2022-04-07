@@ -1,0 +1,24 @@
+---
+title: "H6"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(readr)
+house_prices <- read_csv("house_prices.csv")
+ggplot(data = house_prices, aes(date,house_price_index))+
+  scale_x_date(breaks = as.Date(c("1980-01-01","2000-01-01","2020-01-01")), label =c("'80","'00","'20") )+
+  geom_line(color = "steelblue", size = 1)+
+  facet_wrap(~ state)
+
+house_prices %>% gather(key = "Measure",value = "Value",house_price_index,unemploy_perc,-house_price_perc,-state,-date) -> house_reshaped
+house_reshaped
+
+ggplot(data = house_reshaped, aes(date,Value))+
+  scale_x_date(breaks = as.Date(c("1980-01-01","2000-01-01","2020-01-01")), label =c("'80","'00","'20") )+
+  geom_line(color = "steelblue", size = 1)+
+  facet_wrap(~ state)
+```
