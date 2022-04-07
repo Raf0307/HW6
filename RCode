@@ -7,14 +7,15 @@ ggplot(data = house_prices, aes(date,house_price_index))+
   scale_x_date(breaks = as.Date(c("1980-01-01","2000-01-01","2020-01-01")), label =c("'80","'00","'20") )+
   geom_line(color = "steelblue", size = 1)+
   facet_wrap(~ state)
-house_prices %>% gather(house_price_index,unemploy_perc,-house_price_perc,-state,-date) -> house_reshaped
 
+house_prices %>% gather(key = "Measure",value = "Value",house_price_index,unemploy_perc,-house_price_perc,-state,-date) -> house_reshaped
 house_reshaped
 
-ggplot(data = house_reshaped, aes(date,house_price_index))+
+ggplot(data = house_reshaped, aes(date,Value))+
   scale_x_date(breaks = as.Date(c("1980-01-01","2000-01-01","2020-01-01")), label =c("'80","'00","'20") )+
   geom_line(color = "steelblue", size = 1)+
   facet_wrap(~ state)
-#I dont think that re-structturing the data in this way is usefufl because the values between 
+#I dont think that re-structuring the data in this way is useful because the values between 
 #house_price_index and unemploy_perc are different. This leads to the data not scaling correctly as seen
 #in the graphs that were created after the re-structuring.
+
